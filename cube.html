@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<!--
+
+    A direct port of the rotating cube by Tony Schiffbauer from Commodore 128 to JavaScript.
+    https://www.facebook.com/groups/2105373096362690/posts/3954065001493481/
+
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; margin: 0; padding: 0;">
+<head>
+    <meta charset="utf-8" />
+    <title>A direct port of the rotating cube by Tony Schiffbauer from Commodore 128 to JavaScript</title>
+</head>
+<body style="background-color: #99dd99; width: 100%; height: 100%;">
+    <canvas id="canvas" width="320" height="200" style="background-color: #777777; position: absolute; width: 320px; height: 200px; top: 50%; left: 50%; margin-left: -160px; margin-top: -100px; text-align: center;"></canvas>
+<script>
+        const ctx = document.getElementById("canvas").getContext("2d");
+        const width = 320;
+        const height = 200;
+        ctx.fillStyle = "#777777";
+        ctx.strokeStyle = "#ffffff";
+        var rx = -0.1;
+        var l = 40.0;
+        var fs = 200.0;
+        var c = 0.0;
+        var s = 0.0;
+        var x = Array(8);
+        var y = Array(8);
+        var z = Array(8);
+        var xt = 0.0;
+        var yt = 0.0;
+        var vx = Array(8);
+        var vy = Array(8);
+
+        x[0] = -l; y[0] = -l; z[0] = -l
+        x[1] = -l; y[1] = l; z[1] = -l
+        x[2] = l; y[2] = l; z[2] = -l
+        x[3] = l; y[3] = -l; z[3] = -l
+        x[4] = -l; y[4] = -l; z[4] = l
+        x[5] = -l; y[5] = l; z[5] = l
+        x[6] = l; y[6] = l; z[6] = l
+        x[7] = l; y[7] = -l; z[7] = l
+        rx += 0.01; c = Math.cos(rx / 10.0); s = Math.sin(rx / 10.0);
+        draw();
+
+        function draw() {
+            ctx.fillRect(0, 0, width, height);
+
+            for (var np = 0; np < 8; np++) {
+
+                yt = y[np]
+                y[np] = c * yt - s * z[np]
+                z[np] = s * yt + c * z[np]
+                xt = x[np]
+                x[np] = c * xt + s * z[np]
+                z[np] = -s * xt + c * z[np]
+                xt = x[np]
+                x[np] = c * xt - s * y[np]
+                y[np] = s * xt + c * y[np]
+                vx[np] = 160 + (x[np] * fs) / (z[np] + fs)
+                vy[np] = 100 + (y[np] * fs) / (z[np] + fs)
+            }
+            ctx.beginPath();
+
+            ctx.moveTo(vx[0], vy[0]);
+            ctx.lineTo(vx[1], vy[1]);
+            ctx.lineTo(vx[2], vy[2]);
+            ctx.lineTo(vx[3], vy[3]);
+            ctx.lineTo(vx[0], vy[0]);
+
+            ctx.moveTo(vx[4], vy[4]);
+            ctx.lineTo(vx[5], vy[5]);
+            ctx.lineTo(vx[6], vy[6]);
+            ctx.lineTo(vx[7], vy[7]);
+            ctx.lineTo(vx[4], vy[4]);
+
+            ctx.moveTo(vx[0], vy[0]);
+            ctx.lineTo(vx[4], vy[4]);
+
+            ctx.moveTo(vx[3], vy[3]);
+            ctx.lineTo(vx[7], vy[7]);
+
+            ctx.moveTo(vx[1], vy[1]);
+            ctx.lineTo(vx[5], vy[5]);
+
+            ctx.moveTo(vx[2], vy[2]);
+            ctx.lineTo(vx[6], vy[6]);
+
+            ctx.stroke();
+            requestAnimationFrame(draw);
+        }
+    </script>
+</body>
+</html>
