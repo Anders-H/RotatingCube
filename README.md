@@ -48,4 +48,4 @@ A direct port of the rotating cube by Tony Schiffbauer from Commodore 128 to Jav
 
 The ported code [is here.](https://github.com/Anders-H/RotatingCube/blob/main/cube.html)
 
-And the result [can be viewed here.](https://winsoft.se/temp/cube.html))
+And the result [can be viewed here.](https://winsoft.se/temp/cube.html)
